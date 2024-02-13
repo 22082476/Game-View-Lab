@@ -5,11 +5,14 @@ using Microsoft.EntityFrameworkCore;
 [Route("[controller]/lib")]
 public class GameViewLabController : ControllerBase
 {
-    private GameViewLabContext _context;
+    private readonly GameViewLabContext _context;
+    private readonly IImageService _service;
 
-    public GameViewLabController (GameViewLabContext context)
+
+    public GameViewLabController (GameViewLabContext context, IImageService service)
     {
         _context = context;
+        _service = service;
     }
 
     [HttpGet]
@@ -26,19 +29,19 @@ public class GameViewLabController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> PutLib ([FromBody] Game game)
+    public async Task<IActionResult> PutLib ([FromBody] RequestModel requestModel)
     {
-        if (game != null)
+        if (requestModel != null)
         {
-            if(await _context.Games.AnyAsync ((g) => g.Id == game.Id))
+            if(await _context.Games.AnyAsync ((g) => g.Id == requestModel.Game.Id))
             {
                 try
                 {   
-                    _context.Games.Update (game);
+                    _context.Games.Update (_service.ConvertToGame (requestModel));
 
                     await _context.SaveChangesAsync ();
                 
-                    return Ok (game);
+                    return Ok (requestModel);
                 }
                 catch (DbUpdateException e)
                 {
@@ -46,21 +49,21 @@ public class GameViewLabController : ControllerBase
                 }
             }
             
-            return NotFound (game);
+            return NotFound (requestModel.Game);
         }
 
         return BadRequest ("Game is required");
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostLib ([FromBody] Game game)
+    public async Task<IActionResult> PostLib ([FromBody] RequestModel requestModel)
     {
-        if (game != null)
+        if (requestModel != null)
         {
 
-            if (!await _context.Games.AnyAsync ((g) => g.Name == game.Name))
+            if (!await _context.Games.AnyAsync ((g) => g.Name == requestModel.Game.Name))
             {
-                var add = _context.Games.AddAsync (game);
+                var add = _context.Games.AddAsync (_service.ConvertToGame (requestModel));
 
                 try 
                 {

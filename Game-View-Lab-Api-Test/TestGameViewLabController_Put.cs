@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 
 public class TestGameViewLabController_Put : IClassFixture<GameFixture>
 {
@@ -13,8 +14,11 @@ public class TestGameViewLabController_Put : IClassFixture<GameFixture>
     public void Test_PutLib_Ok ()
     {
         //Arrang
-        var controller = new GameViewLabController (_fixture.Context);
-        var dataObject = new Game { Id = 1, Name = "The Finals 2"};
+        var imageServiceMock = new Mock<IImageService>();
+        imageServiceMock.Setup((m) => m.ConvertToGame(It.IsAny<RequestModel>())).Returns(() => new Game { Id = 1, Name = "The Finals 2"});
+        var controller = new GameViewLabController (_fixture.Context, imageServiceMock.Object);
+        var dataObject = new RequestModel {Game = new Game { Id = 1, Name = "The Finals 2"}, ImageBase64 = "string"};
+
 
         //Act
         var result = controller.PutLib (dataObject).GetAwaiter ().GetResult ();
@@ -27,9 +31,10 @@ public class TestGameViewLabController_Put : IClassFixture<GameFixture>
     public void Test_PutLib_NotFound()
     {
          //Arrang
-        var controller = new GameViewLabController (_fixture.Context);
-        var dataObject = new Game { Id = 4, Name = "Minecraft"};
-
+        var imageServiceMock = new Mock<IImageService>();
+        imageServiceMock.Setup((m) => m.ConvertToGame(It.IsAny<RequestModel>())).Returns(() => new Game { Id = 4, Name = "Minecraft"});
+        var controller = new GameViewLabController (_fixture.Context, imageServiceMock.Object);
+        var dataObject = new RequestModel {Game = new Game { Id = 4, Name = "Minecraft"}, ImageBase64 = "string"};
         //Act
         var result = controller.PutLib (dataObject).GetAwaiter ().GetResult ();
 
@@ -41,8 +46,10 @@ public class TestGameViewLabController_Put : IClassFixture<GameFixture>
     public void Test_PutLib_BadRequest()
     {
          //Arrang
-        var controller = new GameViewLabController (_fixture.Context);
-        Game dataObject = null!;
+        var imageServiceMock = new Mock<IImageService>();
+        imageServiceMock.Setup((m) => m.ConvertToGame(It.IsAny<RequestModel>()));
+        var controller = new GameViewLabController (_fixture.Context, imageServiceMock.Object);
+        RequestModel dataObject = null!;
 
         //Act
         var result = controller.PutLib (dataObject).GetAwaiter ().GetResult ();

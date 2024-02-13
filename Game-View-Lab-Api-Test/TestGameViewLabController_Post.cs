@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 
 public class TestGameViewLabController_Post : IClassFixture<GameFixture>
 {
@@ -13,8 +14,10 @@ public class TestGameViewLabController_Post : IClassFixture<GameFixture>
     public void Test_PostLib_Created ()
     {
         //Arrang
-        var controller = new GameViewLabController (_fixture.Context);
-        var dataObject = new Game {Name = "The Finals 2"};
+        var imageServiceMock = new Mock<IImageService>();
+        imageServiceMock.Setup((m) => m.ConvertToGame(It.IsAny<RequestModel>())).Returns(() => new Game {Name = "The Finals 2"});
+        var controller = new GameViewLabController (_fixture.Context, imageServiceMock.Object);
+        var dataObject = new RequestModel {Game = new Game {Name = "The Finals 2"}, ImageBase64 = "string"};
 
         //Act
         var result = controller.PostLib (dataObject).GetAwaiter ().GetResult ();
@@ -27,8 +30,10 @@ public class TestGameViewLabController_Post : IClassFixture<GameFixture>
     public void Test_PostLib_BadRequest_GameRequired()
     {
          //Arrang
-        var controller = new GameViewLabController (_fixture.Context);
-        Game dataObject = null!;
+        var imageServiceMock = new Mock<IImageService>();
+        imageServiceMock.Setup((m) => m.ConvertToGame(It.IsAny<RequestModel>()));
+        var controller = new GameViewLabController (_fixture.Context, imageServiceMock.Object);
+        RequestModel dataObject = null!;
 
         //Act
         var result = controller.PostLib (dataObject).GetAwaiter ().GetResult ();
@@ -41,8 +46,10 @@ public class TestGameViewLabController_Post : IClassFixture<GameFixture>
     public void Test_PostLib_BadRequest_GameAlreadyExistis()
     {
          //Arrang
-        var controller = new GameViewLabController (_fixture.Context);
-        var dataObject = new Game {Name = "The Finals"};
+        var imageServiceMock = new Mock<IImageService>();
+        imageServiceMock.Setup((m) => m.ConvertToGame(It.IsAny<RequestModel>())).Returns(() => new Game {Name = "The Finals"});
+        var controller = new GameViewLabController (_fixture.Context, imageServiceMock.Object);
+        var dataObject = new RequestModel {Game = new Game {Name = "The Finals"}, ImageBase64 = "string"};
 
         //Act
         var result = controller.PostLib (dataObject).GetAwaiter ().GetResult ();

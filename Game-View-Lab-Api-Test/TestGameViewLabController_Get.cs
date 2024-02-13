@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 
 public class TestGameViewLabController_Get : IClassFixture<GameFixture>
 {
@@ -13,7 +14,8 @@ public class TestGameViewLabController_Get : IClassFixture<GameFixture>
     public void Test_GetLib_Ok ()
     {
         //Arrang
-        var controller = new GameViewLabController (_fixture.Context);
+        var imageServiceMock = new Mock<IImageService>();
+        var controller = new GameViewLabController (_fixture.Context, imageServiceMock.Object);
 
         //Act
         var result = controller.GetLib ().GetAwaiter ().GetResult ();
@@ -26,7 +28,8 @@ public class TestGameViewLabController_Get : IClassFixture<GameFixture>
     public void Test_GetLib_Ok_Empty ()
     {
          //Arrang
-        var controller = new GameViewLabController (_fixture.ContextWithout);
+        var imageServiceMock = new Mock<IImageService>();
+        var controller = new GameViewLabController (_fixture.Context, imageServiceMock.Object);
 
         //Act
         var result = controller.GetLib ().GetAwaiter ().GetResult ();
