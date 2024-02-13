@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game-View-Lab", "Game-View-Lab-Api\Game-View-Lab.csproj", "{49772FE9-E329-4FE0-97F9-ABD9CBDB69BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game-View-Lab-Test", "Game-View-Lab-Api-Test\Game-View-Lab-Test.csproj", "{D0C2FDE6-D929-4929-93C2-B75B370E0B22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49772FE9-E329-4FE0-97F9-ABD9CBDB69BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49772FE9-E329-4FE0-97F9-ABD9CBDB69BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49772FE9-E329-4FE0-97F9-ABD9CBDB69BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49772FE9-E329-4FE0-97F9-ABD9CBDB69BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0C2FDE6-D929-4929-93C2-B75B370E0B22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0C2FDE6-D929-4929-93C2-B75B370E0B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0C2FDE6-D929-4929-93C2-B75B370E0B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0C2FDE6-D929-4929-93C2-B75B370E0B22}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
